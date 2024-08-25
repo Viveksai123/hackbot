@@ -1,0 +1,285 @@
+.level1-page {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #101010;
+}
+
+#tsparticles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2;
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.left-side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    font-size: 24px;
+    text-align: center;
+}
+
+.left-image {
+    max-width: 200%;
+    max-height: 100%;
+    object-fit: cover;
+    transform: rotate(270deg);
+    clip-path: inset(0);
+}
+
+.center-container {
+    flex: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bordered-container {
+    width: 100%;
+    height: 190%;
+    border: 2px solid #3683d0;
+    padding: 65px;
+    border-radius: 10px;
+}
+
+.container {
+    width: 100%;
+    text-align: center;
+}
+
+.level-header {
+    margin-bottom: 20px;
+}
+
+.level-indicator {
+    font-size: 32px;
+    margin-right: 20px;
+    color: #3683d0;
+    font-weight: bold;
+}
+
+.instruction-text,
+.levels-passed,
+.response-text,
+.validation-text {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+.levels-progress {
+    margin-bottom: 20px;
+}
+
+.levels-passed {
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.progress-bar-container {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #3683d0;
+    width: 0;
+    transition: width 0.5s ease-in-out;
+}
+
+.image-section img {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+    border-radius: 10px;
+    border-color: white;
+    display: block;
+}
+
+.password-section {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input {
+    background-color: transparent;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    padding: 10px;
+    color: #ffffff;
+    font-size: 16px;
+    width: calc(100% - 50px);
+    box-sizing: border-box;
+}
+
+.submit-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 24px;
+    color: #1e90ff;
+    cursor: pointer;
+}
+
+.right-side {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.timer {
+    font-size: 20px;
+    font-family: 'digital-clock-font';
+    margin-bottom: 20px;
+    margin-right: 110px;
+    display: flex;
+    align-items: center;
+    border: 2px solid white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.clock-icon {
+    margin-right: 10px;
+}
+
+.validation-section {
+    margin-top: 40px;
+    margin-right: 5%;
+}
+
+.validation-section input {
+    margin-right: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.validate-icon {
+    color: #3683d0;
+    font-size: 32px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Update your Level1Page.css */
+
+.validation-section,
+.cast-spell-section {
+    margin-top: 40px;
+    margin-right: 5%;
+}
+
+.validation-section input,
+.cast-spell-section input {
+    margin-right: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.validate-icon,
+.cast-spell-icon {
+    color: #3683d0;
+    font-size: 32px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.success-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .popup-content h2 {
+    margin-bottom: 15px;
+  }
+  
+  .popup-content button {
+    background: #3683d0;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .popup-content button:hover {
+    background: #286bbd;
+  }
+  
+  .stars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .star-icon {
+    color: gold;
+    font-size: 50px; /* Default size for side stars */
+    margin: 0 5px;
+    padding: 5px;
+  }
+  
+  .star-icon.center {
+    font-size: 70px; /* Larger size for the center star */
+  }
+  

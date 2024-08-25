@@ -1,0 +1,9 @@
+[build]
+  publish = "build"  # Directory to deploy (output of 'npm run build')
+  command = "npm run build"  # Build command
+
+[[redirects]]
+  from = "/api/*"
+  to = "http://20.150.253.43/:splat"
+  status = 200
+  force = true

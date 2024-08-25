@@ -1,0 +1,130 @@
+
+.fade-in-image {
+  animation: fadeIn 3s ease-in-out;
+}
+
+.fade-in-logo {
+  animation: fadeIn 5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/* Ensure you add the font family to the class */
+.kalam-font {
+  font-family: 'Kalam', sans-serif;
+  font-size: 4rem; /* Adjust as needed */
+  color: white;
+  line-height: 1.2;
+  position: relative;
+  display: inline-block;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-title {
+  animation: fadeIn 2s ease-out;
+}
+
+/* Additional CSS for Rules Page */
+.bg-cover {
+  background-size: cover;
+}
+
+.bg-center {
+  background-position: center;
+}
+
+.opacity-70 {
+  opacity: 0.7;
+}
+
+.home-image {
+  max-width: 140%;
+  max-height: 0%;
+  object-fit: cover;
+  transform: rotate(0deg); /* Can be adjusted */
+  /* Additional properties for cropping, flipping */
+  clip-path: inset(0 0 20 0) /* Adjust as needed */
+}
+
+.login-page {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 900px;
+  width: 100%;
+}
+
+.login-image {
+  flex: 1;
+  background: url('../images/forlogin.jpg') no-repeat center center;
+  background-size: cover;
+  height: 100%;
+  min-height: 400px; /* Adjust based on image height */
+}
+
+.login-form {
+  flex: 1;
+  padding: 40px;
+  background: white;
+}
+
+h2 {
+  color: black;
+}
+
+label {
+  color: black;
+}
+
+input {
+  border: 1px solid #ddd;
+}
+
+.button {
+  background: black;
+  color: white;
+  padding: 7px 14px;
+  border-radius: 5px;
+  margin-top: -60%;
+  border: 2px solid white; /* White border */
+  text-decoration: none;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background: #000;
+}
+
+.slide-left-exit-active {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
