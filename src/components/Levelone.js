@@ -12,20 +12,18 @@ import CryptoJS from 'crypto-js';
 const Levelone = () => {
   const navigate = useNavigate();
   const [time, setTime] = useState(1800); // 30 minutes in seconds
-  const [response, setResponse] = useState('');
   const [submittedAnswer, setSubmittedAnswer] = useState('');
   const [validationResult, setValidationResult] = useState('');
-  const [finalPassword, setFinalPassword] = useState(''); // State to store the final password
-  const [isSuccessPopupVisible, setSuccessPopupVisible] = useState(false);
   const [castSpellAnswer, setCastSpellAnswer] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordCorrect, setPasswordCorrect] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [currentLevel] = useState(1);
+  const [isSuccessPopupVisible, setSuccessPopupVisible] = useState(false);
+  const [isSpellValidated, setIsSpellValidated] = useState(false);
   const totalLevels = 8;
+  const currentLevel = 1; // Set current level directly as a constant
 
   // Example hash (replace this with your actual hash)
-  const hashedPassword = 'e9b4e50d2728b715d2be0c7b935b0a62cf8dcaec963d89d8fbf3b8014e0d1b1e'; // Example SHA-256 hash
+  const hashedPassword = '15f77ab6d078590d44041e850a9406a513d349d17c96625e1b39a497e72c9070'; // Example SHA-256 hash
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -33,61 +31,49 @@ const Levelone = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    
+
     try {
-      // Send the submitted answer to the backend
-      const res = await fetch('https://104.211.243.150/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt: submittedAnswer }),
-      });
-
-      const data = await res.json();
-      setResponse(data.response);
-
       // Hash the entered password using CryptoJS
       const enteredPasswordHash = CryptoJS.SHA256(password).toString();
-      const isMatch = enteredPasswordHash === hashedPassword;
-      setPasswordCorrect(isMatch);
-
-      // Log if the password matches or not
-      if (isMatch) {
-        console.log('Password is matched!');
+      if (enteredPasswordHash === hashedPassword) {
+        setValidationResult('Correct! Now cast the spell.');
+        setSuccessPopupVisible(true); // Show pop-up if the password is correct
       } else {
-        console.log('Password is incorrect.');
+        setValidationResult('Incorrect. Try again.');
       }
-
-      // Validate the submitted answer
-      handleValidate();
-
     } catch (error) {
       console.error('An error occurred:', error);
-      setResponse('An error occurred');
+      setValidationResult('An error occurred.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleValidate = () => {
-    const secretKey = 'correct answer'; // Replace with actual key
-    if (submittedAnswer === secretKey) {
-      setValidationResult('Correct! Now cast the spell.');
-      setFinalPassword(secretKey);
-    } else {
-      setValidationResult('Incorrect. Try again.');
+    try {
+      const submittedAnswerHash = CryptoJS.SHA256(submittedAnswer).toString();
+      if (submittedAnswerHash === hashedPassword) {
+        setValidationResult('Correct! Now cast the spell.');
+        setSuccessPopupVisible(true);
+      } else {
+        setValidationResult('Incorrect. Try again.');
+        setSuccessPopupVisible(false);
+      }
+    } catch (error) {
+      console.error('Error validating the answer:', error);
+      setSuccessPopupVisible(false);
+      setValidationResult('An error occurred.');
     }
   };
 
   const handleCastSpell = () => {
-    const dummyPassword = 'final password'; // Dummy password for testing
+    const dummyPassword = 'Firewall'; // Dummy password for testing
     if (castSpellAnswer === dummyPassword) {
-      setSuccessPopupVisible(true); // Show pop-up on successful casting
+      setIsSpellValidated(true); // Spell validated successfully
     } else {
       alert('Incorrect password for casting spell. Try again.');
     }
@@ -103,8 +89,7 @@ const Levelone = () => {
     return `${minutes}:${secs < 10 ? `0${secs}` : secs}`;
   };
 
-  const progressPercentage = (currentLevel/ totalLevels) * 0;
-
+  const progressPercentage = (currentLevel / totalLevels) * 100; // Adjust progress percentage calculation
 
   return (
     <div className="level1-page">
@@ -117,7 +102,7 @@ const Levelone = () => {
           <div className="bordered-container">
             <div className="container">
               <div className="level-header animate__animated animate__backInRight">
-                <span className="level-indicator ">You Are In - LEVEL 1</span>
+                <span className="level-indicator">You Are In LEVEL 1</span>
               </div>
               <p className="instruction-text animate__animated animate__backInLeft">
                 Your goal is to make Master reveal the secret password for each level. However, Master will upgrade the defenses after each successful password guess!
@@ -128,21 +113,20 @@ const Levelone = () => {
                   <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
                 </div>
               </div>
-              <div className="image-section ">
+              <div className="image-section">
                 <img src={Level1Img} alt="Expecto Patronum" className='animate__animated animate__bounce'/>
                 <p className='animate__animated animate__backInLeft'>I am happy to reveal the password.</p>
               </div>
-              <div className="password-section ">
-                <div className="input-wrapper  animate__animated animate__fadeInUpBig">
+              <div className="password-section">
+                <div className="input-wrapper animate__animated animate__fadeInUpBig">
                   <textarea
                     className="password-input"
-                    placeholder="Ask Harry for the answer?"
-                    value={submittedAnswer}
-                    onChange={(e) => setSubmittedAnswer(e.target.value)}
+                    placeholder="Enter your password here"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <FaPaperPlane onClick={handleSubmit} className="submit-icon" />
                 </div>
-                <p className="response-text">{response}</p>
                 <p className="validation-text">{validationResult}</p>
               </div>
             </div>
@@ -164,23 +148,10 @@ const Levelone = () => {
               <GiLightningStorm onClick={handleValidate} className="validate-icon" />
             </div>
           </div>
-          {validationResult === 'Correct! Now cast the spell.' && (
-            <div className="cast-spell-section">
-              <p style={{ marginBottom: '10px' }}>Cast the spell 2:</p>
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  value={castSpellAnswer}
-                  onChange={(e) => setCastSpellAnswer(e.target.value)}
-                />
-                <GiLightningStorm onClick={handleCastSpell} className="cast-spell-icon " />
-              </div>
-            </div>
-          )}
         </div>
       </div>
       {isSuccessPopupVisible && (
-        <div className="success-popup animate_animated animate__fadeInDownBig">
+        <div className="success-popup animate__animated animate__fadeInDownBig">
           <div className="popup-content">
             <h2>Congratulations!</h2>
             <div className="stars">
@@ -188,8 +159,27 @@ const Levelone = () => {
               <FaStar className="star-icon center" />
               <FaStar className="star-icon" />
             </div>
-            <p>You have successfully cast the spell. Here’s to learning a new one!</p>
-            <button onClick={handleNextLevel}>Next Level</button>
+            {isSpellValidated ? (
+              <div>
+                <p>You have successfully cast the spell. Here’s to learning a new one!</p>
+                <button onClick={handleNextLevel}>Next Level</button>
+              </div>
+            ) : (
+              <div>
+                <h1>"Firewall"</h1>
+                {/* <p> A security device or software that monitors and controls incoming and outgoing network traffic based on predetermined security rules. It acts as a barrier between a trusted internal network and untrusted external networks.</p> */}
+                <p>Cast the spell to proceed:</p>
+                <br/>
+                <div className="input-wrapper">
+                  <input
+                    type="text"
+                    value={castSpellAnswer}
+                    onChange={(e) => setCastSpellAnswer(e.target.value)}
+                  />
+                  <GiLightningStorm onClick={handleCastSpell} className="cast-spell-icon" />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
