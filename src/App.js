@@ -23,9 +23,21 @@ function App() {
 }
 
 function Layout() {
-  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const savedTimeLeft = localStorage.getItem('timeLeft');
+    return savedTimeLeft !== null ? parseInt(savedTimeLeft, 10) : 1800; // Default to 30 minutes
+  });
+
+  const [timerRunning, setTimerRunning] = useState(() => {
+    const savedTimerRunning = localStorage.getItem('timerRunning');
+    return savedTimerRunning !== null ? JSON.parse(savedTimerRunning) : false;
+  });
+
   const [timerEnded, setTimerEnded] = useState(false);
-  const [timerRunning, setTimerRunning] = useState(false); // New state to control timer
+  
+  // New states for name and rollnum
+  const [name, setName] = useState('');
+  const [rollnum, setRollnum] = useState('');
 
   const location = useLocation(); // Get the current route path
 
@@ -33,10 +45,16 @@ function Layout() {
     let timer;
     if (timerRunning && timeLeft > 0) {
       timer = setInterval(() => {
-        setTimeLeft(timeLeft - 1);
+        setTimeLeft((prevTimeLeft) => {
+          const newTimeLeft = prevTimeLeft - 1;
+          localStorage.setItem('timeLeft', newTimeLeft); // Save timeLeft to localStorage
+          return newTimeLeft;
+        });
       }, 1000);
     } else if (timeLeft <= 0) {
       setTimerEnded(true);
+      setTimerRunning(false); // Stop the timer
+      clearLocalStorage(); // Clear the local storage
       if (timer) clearInterval(timer);
     }
     return () => clearInterval(timer);
@@ -44,6 +62,7 @@ function Layout() {
 
   const startTimer = () => {
     setTimerRunning(true); // Start the timer
+    localStorage.setItem('timerRunning', true); // Save timerRunning to localStorage
   };
 
   const convertToIST = (date) => {
@@ -61,13 +80,25 @@ function Layout() {
       },
       body: JSON.stringify({ timestamp: timestampIST, timeLeft }), // Send both timestamp and timeLeft
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Timestamp and timeLeft sent:', data);
-    })
-    .catch(error => {
-      console.error('Error sending timestamp and timeLeft:', error);
-    });
+      .then(response => response.json())
+      .then(data => {
+        console.log('Timestamp and timeLeft sent:', data);
+      })
+      .catch(error => {
+        console.error('Error sending timestamp and timeLeft:', error);
+      });
+  };
+
+  // Function to update name and rollnum
+  const setUserInfo = (userName, userRollnum) => {
+    setName(userName);
+    setRollnum(userRollnum);
+  };
+
+  // Function to clear local storage when the timer ends
+  const clearLocalStorage = () => {
+    localStorage.removeItem('timeLeft');
+    localStorage.removeItem('timerRunning');
   };
 
   if (timerEnded) {
@@ -86,7 +117,7 @@ function Layout() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/rules" element={<RulesPage />} />
-        <Route path="/login" element={<LoginPage startTimer={startTimer}/>} />
+        <Route path="/login" element={<LoginPage startTimer={startTimer} setUserInfo={setUserInfo} />} />
         <Route path="/level1" element={<Levelone />} />
         <Route path="/level2" element={<Leveltwo />} />
         <Route path="/level3" element={<Levelthree />} />
@@ -100,5 +131,7 @@ function Layout() {
     </div>
   );
 }
+
+
 
 export default App;
