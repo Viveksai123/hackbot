@@ -32,7 +32,14 @@
   position: relative;
   display: inline-block;
 }
+.timer1{
+  position: absolute;
+  
+  background-color: white;
+  z-index: 10;
+  opacity:0.9;
 
+}
 /* Fade-in Animation */
 @keyframes fadeIn {
   0% {
