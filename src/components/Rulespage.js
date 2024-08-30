@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './styles/Rulespage.css'; // Ensure the path is correct
+import { useNavigate } from 'react-router-dom'; // Use useNavigate
 
 const accordionData = [
   {
@@ -26,6 +27,11 @@ const accordionData = [
 
 const RulesPage = () => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const navigate = useNavigate(); // Use navigate instead of history
+
+  const handleClick = () => {
+    navigate('/login');
+  };
 
   const handleToggle = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -52,7 +58,7 @@ const RulesPage = () => {
         ))}
       </div>
       <div className="button-container animate__animated animate__fadeInUpBig">
-        <a className="btn2 " href="/login">I am ready !!</a>
+        <button className="btn2 " onClick={handleClick}>I am ready !!</button>
       </div>
     </div>
   );
