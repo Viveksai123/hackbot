@@ -13,6 +13,7 @@ const Levelone = () => {
   const navigate = useNavigate();
   const [time, setTime] = useState(1800); // 30 minutes in seconds
   const [submittedAnswer, setSubmittedAnswer] = useState('');
+  const [response, setResponse] = useState('');
   const [validationResult, setValidationResult] = useState('');
   const [castSpellAnswer, setCastSpellAnswer] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +24,7 @@ const Levelone = () => {
   const currentLevel = 1; // Set current level directly as a constant
 
   // Example hash (replace this with your actual hash)
-  const hashedPassword = '15f77ab6d078590d44041e850a9406a513d349d17c96625e1b39a497e72c9070'; // Example SHA-256 hash
+  const hashedPassword = 'ec28e6094c3c7d86adabcf28217b224084d9097d234852dee4b560b6ea79582b'; // Example SHA-256 hash
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -35,19 +36,23 @@ const Levelone = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-
+    
     try {
-      // Hash the entered password using CryptoJS
-      const enteredPasswordHash = CryptoJS.SHA256(password).toString();
-      if (enteredPasswordHash === hashedPassword) {
-        setValidationResult('Correct! Now cast the spell.');
-        setSuccessPopupVisible(true); // Show pop-up if the password is correct
-      } else {
-        setValidationResult('Incorrect. Try again.');
-      }
+      // Send the submitted answer to the backend
+      const res = await fetch('http://4.242.100.105/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: password }),
+      });
+
+      const data = await res.json();
+      setResponse(data.response);
+
     } catch (error) {
       console.error('An error occurred:', error);
-      setValidationResult('An error occurred.');
+      setResponse('An error occurred');
     } finally {
       setLoading(false);
     }
@@ -121,13 +126,13 @@ const Levelone = () => {
                 <div className="input-wrapper animate__animated animate__fadeInUpBig">
                   <textarea
                     className="password-input"
-                    placeholder="Enter your password here"
+                    placeholder="Enter your prompt here"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <FaPaperPlane onClick={handleSubmit} className="submit-icon" />
                 </div>
-                <p className="validation-text">{validationResult}</p>
+                <p className="response-text">{response}</p>
               </div>
             </div>
           </div>
@@ -139,13 +144,16 @@ const Levelone = () => {
           </div>
           <div className="validation-section">
             <p style={{ marginBottom: '10px' }}>Validate the spell 1:</p>
-            <div className="input-wrapper">
+            <div className="input-wrapper1">
+              <div className='childinputwrap'>
               <input
                 type="text"
                 value={submittedAnswer}
                 onChange={(e) => setSubmittedAnswer(e.target.value)}
               />
               <GiLightningStorm onClick={handleValidate} className="validate-icon" />
+              </div>
+              <div><p className="validation-text">{validationResult}</p></div>
             </div>
           </div>
         </div>
@@ -166,8 +174,8 @@ const Levelone = () => {
               </div>
             ) : (
               <div>
-                <h1>"Firewall"</h1>
-                {/* <p> A security device or software that monitors and controls incoming and outgoing network traffic based on predetermined security rules. It acts as a barrier between a trusted internal network and untrusted external networks.</p> */}
+                <h1 className='heading'>"Firewall"</h1>
+                <p> A security device or software that monitors and controls incoming and outgoing network traffic based on predetermined security rules. It acts as a barrier between a trusted internal network and untrusted external networks.</p>
                 <p>Cast the spell to proceed:</p>
                 <br/>
                 <div className="input-wrapper">

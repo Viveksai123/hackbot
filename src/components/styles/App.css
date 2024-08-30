@@ -37,6 +37,10 @@
   }
 }
 
+.childinputwrap{
+  display: flex;
+}
+
 .fade-in-title {
   animation: fadeIn 2s ease-out;
 }

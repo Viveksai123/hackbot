@@ -52,11 +52,7 @@ const Levelthree = () => {
       const data = await res.json();
       setResponse(data.response);
 
-      // Hash the entered password using CryptoJS
-      const enteredPasswordHash = CryptoJS.SHA256(password).toString();
-      const isMatch = enteredPasswordHash === hashedPassword;
-      setPasswordCorrect(isMatch);
-
+     
       // Log if the password matches or not
       if (isMatch) {
         console.log('Password is matched!');

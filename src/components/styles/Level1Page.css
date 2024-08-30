@@ -134,8 +134,14 @@
     position: relative;
     display: flex;
     align-items: center;
+    
 }
-
+.input-wrapper1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
 .password-input {
     background-color: transparent;
     border: 1px solid #fff;
@@ -241,16 +247,31 @@
   }
   
   .popup-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+      /* border: 5px solid #3683d0; */
+        border-radius: 10px;
+          padding: 20px;
+            box-shadow: 0 16px 20px #3683d0;
+              width: 60vw;
+              height: 60vh;
+                  justify-content: center;
+                    align-items: center;
+                      background-color: rgba(0, 0, 0, 0.1);
+                        backdrop-filter: blur(4px);
+                              text-align: center;
+                                  color: #FFFFFF;
   }
-  
+
+  .heading{
+    color: #FFFFFF;
+  }
+
   .popup-content h2 {
-    margin-bottom: 15px;
-  }
-  
+    margin-bottom: 5px;
+    color: #FFFFFF;}
+
   .popup-content button {
     background: #3683d0;
     color: white;
