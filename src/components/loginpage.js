@@ -26,9 +26,15 @@ const LoginPage = ({startTimer}) => {
               <label htmlFor="unique-id" className="block text-lg font-medium">Mail ID</label>
               <input type="text" id="unique-id" className="w-full px-4 py-2 border rounded-md" placeholder="Your Mail ID" />
             </div>
-            <button type="submit" onClick={handleClick} className="w-full px-4 py-2 bg-blue-500 text-black rounded-md hover:bg-blue-700 transition duration-300 animate__animated animate__fadeInUpBig">
+
+            <div className="row">
+           <button type="submit" onClick={handleClick} className="w-full px-4 py-2 bg-blue-500 text-black rounded-md hover:bg-blue-700 transition duration-300 animate__animated animate__fadeInUpBig">
               Submit
             </button>
+            </div>
+
+            
+
           </form>
         </div>
       </div>

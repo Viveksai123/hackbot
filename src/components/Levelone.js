@@ -93,8 +93,13 @@ const Levelone = () => {
     const secs = seconds % 60;
     return `${minutes}:${secs < 10 ? `0${secs}` : secs}`;
   };
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleValidate()
+    }
+  };
 
-  const progressPercentage = (currentLevel / totalLevels) * 100; // Adjust progress percentage calculation
+  const progressPercentage = (currentLevel / totalLevels) * 90; // Adjust progress percentage calculation
 
   return (
     <div className="level1-page">
@@ -129,6 +134,7 @@ const Levelone = () => {
                     placeholder="Enter your prompt here"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    onKeyDown={handleKeyDown}
                   />
                   <FaPaperPlane onClick={handleSubmit} className="submit-icon" />
                 </div>
@@ -150,6 +156,7 @@ const Levelone = () => {
                 type="text"
                 value={submittedAnswer}
                 onChange={(e) => setSubmittedAnswer(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
               <GiLightningStorm onClick={handleValidate} className="validate-icon" />
               </div>
@@ -183,6 +190,7 @@ const Levelone = () => {
                     type="text"
                     value={castSpellAnswer}
                     onChange={(e) => setCastSpellAnswer(e.target.value)}
+                    onKeyDown={handleKeyDown}
                   />
                   <GiLightningStorm onClick={handleCastSpell} className="cast-spell-icon" />
                 </div>
