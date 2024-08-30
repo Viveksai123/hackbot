@@ -24,7 +24,7 @@ const Levelone = () => {
   const currentLevel = 2; // Set current level directly as a constant
 
   // Example hash (replace this with your actual hash)
-  const hashedPassword = 'ec28e6094c3c7d86adabcf28217b224084d9097d234852dee4b560b6ea79582b'; // Example SHA-256 hash
+  const hashedPassword = '88a553b7257e652b1e6ee589bd8f77c15ed0d462f15b7c0f06791aa964890acf'; // Example SHA-256 hash
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -39,7 +39,7 @@ const Levelone = () => {
     
     try {
       // Send the submitted answer to the backend
-      const res = await fetch('http://172.179.69.98/generate', {
+      const res = await fetch('/api/generate-2/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -39,7 +39,7 @@ const Levelone = () => {
     
     try {
       // Send the submitted answer to the backend
-      const res = await fetch('http://4.242.100.105/generate', {
+      const res = await fetch('/api/generate-1/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

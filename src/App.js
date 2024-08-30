@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import RulesPage from './components/Rulespage';
 import LoginPage from './components/loginpage';
@@ -15,9 +15,19 @@ import Leaderboard from './components/Leaderboard';
 import './components/styles/App.css'
 
 function App() {
+  return (
+    <Router>
+      <Layout />
+    </Router>
+  );
+}
+
+function Layout() {
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
   const [timerEnded, setTimerEnded] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false); // New state to control timer
+
+  const location = useLocation(); // Get the current route path
 
   useEffect(() => {
     let timer;
@@ -66,27 +76,27 @@ function App() {
 
   return (
     <div>
-      <div className='timer1'>
-        <p>Time left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p>
-        {!timerRunning && <button onClick={startTimer}>Start Timer</button>} {/* Button to start timer */}
-        <button onClick={sendTimestamp}>Send Timestamp</button>
-      </div>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/rules" element={<RulesPage />} />
-          <Route path="/login" element={<LoginPage startTimer={startTimer}/>} />
-          <Route path="/level1" element={<Levelone />} />
-          <Route path="/level2" element={<Leveltwo />} />
-          <Route path="/level3" element={<Levelthree />} />
-          <Route path="/level4" element={<Levelfour />} />
-          <Route path="/level5" element={<Levelfive />} />
-          <Route path="/level6" element={<Levelsix />} />
-          <Route path="/level7" element={<Levelseven />} />
-          <Route path="/level8" element={<Leveleight />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-        </Routes>
-      </Router>
+      {(location.pathname !== '/' && location.pathname !== '/rules') && (
+        <div className='timer1'>
+          <p>Time left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p>
+          {!timerRunning && <button onClick={startTimer}>Start Timer</button>} {/* Button to start timer */}
+          <button onClick={sendTimestamp}>Send Timestamp</button>
+        </div>
+      )}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/rules" element={<RulesPage />} />
+        <Route path="/login" element={<LoginPage startTimer={startTimer}/>} />
+        <Route path="/level1" element={<Levelone />} />
+        <Route path="/level2" element={<Leveltwo />} />
+        <Route path="/level3" element={<Levelthree />} />
+        <Route path="/level4" element={<Levelfour />} />
+        <Route path="/level5" element={<Levelfive />} />
+        <Route path="/level6" element={<Levelsix />} />
+        <Route path="/level7" element={<Levelseven />} />
+        <Route path="/level8" element={<Leveleight />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+      </Routes>
     </div>
   );
 }
