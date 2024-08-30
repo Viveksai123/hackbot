@@ -7,6 +7,14 @@
   animation: fadeIn 5s ease-in-out;
 }
 
+.row{
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

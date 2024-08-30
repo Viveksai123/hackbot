@@ -53,12 +53,6 @@ const Levelthree = () => {
       setResponse(data.response);
 
      
-      // Log if the password matches or not
-      if (isMatch) {
-        console.log('Password is matched!');
-      } else {
-        console.log('Password is incorrect.');
-      }
 
       // Validate the submitted answer
       handleValidate();
