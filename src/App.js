@@ -12,6 +12,7 @@ import Levelsix from './components/Levelsix';
 import Levelseven from './components/Levelseven';
 import Leveleight from './components/Leveleight';
 import Leaderboard from './components/Leaderboard';
+import { FaClock } from 'react-icons/fa';
 import './components/styles/App.css'
 
 function App() {
@@ -67,9 +68,13 @@ function App() {
   return (
     <div>
       <div className='timer1'>
-        <p>Time left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p>
+        <div className='row'>
+      <FaClock className="clock-icon" />
+        <p>Time left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p></div>
+        <div>
         {!timerRunning && <button onClick={startTimer}>Start Timer</button>} {/* Button to start timer */}
         <button onClick={sendTimestamp}>Send Timestamp</button>
+        </div>
       </div>
       <Router>
         <Routes>
