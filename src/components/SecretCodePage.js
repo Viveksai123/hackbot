@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import "./styles/index.css"
+
 function SecretCodePage() {
+  localStorage.setItem('secretCode', 'false');
   const [code, setCode] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (code === 'JK') {
+    if (code === 'hot') {
       localStorage.setItem('secretCode', 'true');
       navigate('/');
     } else {
