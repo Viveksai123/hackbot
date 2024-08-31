@@ -9,9 +9,9 @@ import { FaClock, FaPaperPlane, FaStar } from 'react-icons/fa'; // Import icons
 import { GiLightningStorm } from 'react-icons/gi'; // Example import
 import CryptoJS from 'crypto-js';
 
-const Levelone = () => {
+const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
   const navigate = useNavigate();
-  const [time, setTime] = useState(1800); // 30 minutes in seconds
+  const [time, setTime] = useState(timeLeft || 1800); // 30 minutes in seconds
   const [submittedAnswer, setSubmittedAnswer] = useState('');
   const [response, setResponse] = useState('');
   const [validationResult, setValidationResult] = useState('');
@@ -20,6 +20,7 @@ const Levelone = () => {
   const [loading, setLoading] = useState(false);
   const [isSuccessPopupVisible, setSuccessPopupVisible] = useState(false);
   const [isSpellValidated, setIsSpellValidated] = useState(false);
+  const [score, setScore] = useState(initialScore || 0);
   const totalLevels = 8;
   const currentLevel = 1; // Set current level directly as a constant
 
@@ -84,18 +85,78 @@ const Levelone = () => {
     }
   };
 
-  const handleNextLevel = () => {
-    navigate(`/level${currentLevel + 1}`);
+  const handleNextLevel = async () => {
+    const levelScore = currentLevel * 100 + time; // Example score calculation
+    const newScore = score + levelScore;
+  
+    const timestampUTC = new Date().toISOString(); // Current time in UTC
+    const data = {
+      username,
+      rollnum,
+      timestamp: timestampUTC,
+      timeLeft: time,
+      score: newScore,
+      level: currentLevel, // Include the current level in the data
+    };
+  
+    try {
+      // Fetch the existing data for the user based on rollnum
+      const fetchResponse = await fetch(`http://localhost:5000/tasks?rollnum=${rollnum}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (fetchResponse.ok) {
+        const existingDataArray = await fetchResponse.json();
+  
+        // Assuming that the rollnum is unique, so we'll take the first matching entry
+        if (existingDataArray && existingDataArray.length > 0) {
+          const existingData = existingDataArray[0];
+  
+          // Check if the current level is 1 plus the level in existing data
+          if (currentLevel === existingData.level + 1) {
+            // If user data exists and level is correct, update it
+            const updateResponse = await fetch(`http://localhost:5000/tasks/${existingData.id}`, {
+              method: 'PUT', // Use PUT or PATCH for updating the existing entry
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            });
+  
+            if (updateResponse.ok) {
+              console.log('Data updated successfully:', data);
+              setScore(newScore); // Update the score locally
+              navigate(`/level${currentLevel + 1}`); // Navigate to the next level
+            } else {
+              console.error('Failed to update data:', updateResponse.statusText);
+            }
+          } else {
+            // If the level does not match the required criteria, just navigate to the next level
+            navigate(`/level${currentLevel + 1}`);
+          }
+        } else {
+          console.error('No existing data found for the given roll number.');
+        }
+      } else {
+        console.error('Failed to fetch existing data:', fetchResponse.statusText);
+      }
+    } catch (error) {
+      console.error('An error occurred while updating data:', error);
+    }
   };
-
+    
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${minutes}:${secs < 10 ? `0${secs}` : secs}`;
   };
+
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      handleValidate()
+      handleValidate();
     }
   };
 
@@ -112,7 +173,7 @@ const Levelone = () => {
           <div className="bordered-container">
             <div className="container">
               <div className="level-header animate__animated animate__backInRight">
-                <span className="level-indicator">You Are In LEVEL 1</span>
+                <span className="level-indicator">You Are In LEVEL {currentLevel}</span>
               </div>
               <p className="instruction-text animate__animated animate__backInLeft">
                 Your goal is to make Master reveal the secret password for each level. However, Master will upgrade the defenses after each successful password guess!
@@ -124,8 +185,8 @@ const Levelone = () => {
                 </div>
               </div>
               <div className="image-section">
-                <img src={Level1Img} alt="Expecto Patronum" className='animate__animated animate__bounce'/>
-                <p className='animate__animated animate__backInLeft'>I am happy to reveal the password.</p>
+                <img src={Level1Img} alt="Expecto Patronum" className="animate__animated animate__bounce" />
+                <p className="animate__animated animate__backInLeft">I am happy to reveal the password.</p>
               </div>
               <div className="password-section">
                 <div className="input-wrapper animate__animated animate__fadeInUpBig">
@@ -151,14 +212,14 @@ const Levelone = () => {
           <div className="validation-section">
             <p style={{ marginBottom: '10px' }}>Validate the spell 1:</p>
             <div className="input-wrapper1">
-              <div className='childinputwrap'>
-              <input
-                type="text"
-                value={submittedAnswer}
-                onChange={(e) => setSubmittedAnswer(e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-              <GiLightningStorm onClick={handleValidate} className="validate-icon" />
+              <div className="childinputwrap">
+                <input
+                  type="text"
+                  value={submittedAnswer}
+                  onChange={(e) => setSubmittedAnswer(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+                <GiLightningStorm onClick={handleValidate} className="validate-icon" />
               </div>
               <div><p className="validation-text">{validationResult}</p></div>
             </div>
@@ -175,26 +236,22 @@ const Levelone = () => {
               <FaStar className="star-icon" />
             </div>
             {isSpellValidated ? (
-              <div>
-                <p>You have successfully cast the spell. Here’s to learning a new one!</p>
-                <button onClick={handleNextLevel}>Next Level</button>
-              </div>
+              <>
+                <p>Your answer is correct!</p>
+                <button className="next-level-button" onClick={handleNextLevel}>Next Level</button>
+              </>
             ) : (
-              <div>
-                <h1 className='heading'>"Firewall"</h1>
-                <p> A security device or software that monitors and controls incoming and outgoing network traffic based on predetermined security rules. It acts as a barrier between a trusted internal network and untrusted external networks.</p>
-                <p>Cast the spell to proceed:</p>
-                <br/>
+              <>
+                <p>Please cast the spell to proceed.</p>
                 <div className="input-wrapper">
                   <input
                     type="text"
                     value={castSpellAnswer}
                     onChange={(e) => setCastSpellAnswer(e.target.value)}
-                    onKeyDown={handleKeyDown}
                   />
-                  <GiLightningStorm onClick={handleCastSpell} className="cast-spell-icon" />
+                  <FaPaperPlane onClick={handleCastSpell} className="submit-icon" />
                 </div>
-              </div>
+              </>
             )}
           </div>
         </div>

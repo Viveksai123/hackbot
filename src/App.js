@@ -12,7 +12,7 @@ import Levelsix from './components/Levelsix';
 import Levelseven from './components/Levelseven';
 import Leveleight from './components/Leveleight';
 import Leaderboard from './components/Leaderboard';
-import './components/styles/App.css'
+import './components/styles/App.css';
 
 function App() {
   return (
@@ -23,9 +23,10 @@ function App() {
 }
 
 function Layout() {
+  // Timer State
   const [timeLeft, setTimeLeft] = useState(() => {
     const savedTimeLeft = localStorage.getItem('timeLeft');
-    return savedTimeLeft !== null ? parseInt(savedTimeLeft, 10) : 1800; // Default to 30 minutes
+    return savedTimeLeft !== null ? parseInt(savedTimeLeft, 10) : 300; // Default to 30 minutes (1800 seconds)
   });
 
   const [timerRunning, setTimerRunning] = useState(() => {
@@ -34,13 +35,24 @@ function Layout() {
   });
 
   const [timerEnded, setTimerEnded] = useState(false);
-  
-  // New states for name and rollnum
-  const [name, setName] = useState('');
-  const [rollnum, setRollnum] = useState('');
+
+  // User Information State
+  const [username, setUsername] = useState(() => {
+    return localStorage.getItem('username') || '';
+  });
+  const [rollnum, setRollnum] = useState(() => {
+    return localStorage.getItem('rollnum') || '';
+  });
+
+  // Score State
+  const [score, setScore] = useState(() => {
+    const savedScore = localStorage.getItem('score');
+    return savedScore !== null ? parseInt(savedScore, 10) : 0;
+  });
 
   const location = useLocation(); // Get the current route path
 
+  // Timer Effect
   useEffect(() => {
     let timer;
     if (timerRunning && timeLeft > 0) {
@@ -60,16 +72,19 @@ function Layout() {
     return () => clearInterval(timer);
   }, [timerRunning, timeLeft]);
 
+  // Start Timer
   const startTimer = () => {
     setTimerRunning(true); // Start the timer
     localStorage.setItem('timerRunning', true); // Save timerRunning to localStorage
   };
 
+  // Convert UTC to IST
   const convertToIST = (date) => {
     const offset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
     return new Date(date.getTime() + offset).toISOString();
   };
 
+  // Send Timestamp and TimeLeft to Backend
   const sendTimestamp = () => {
     const timestampUTC = new Date(); // Current time in UTC
     const timestampIST = convertToIST(timestampUTC); // Convert to IST
@@ -89,20 +104,28 @@ function Layout() {
       });
   };
 
-  // Function to update name and rollnum
+  // Function to update username and rollnum
   const setUserInfo = (userName, userRollnum) => {
-    setName(userName);
+    setUsername(userName);
     setRollnum(userRollnum);
+    localStorage.setItem('username', userName);
+    localStorage.setItem('rollnum', userRollnum);
   };
 
   // Function to clear local storage when the timer ends
   const clearLocalStorage = () => {
     localStorage.removeItem('timeLeft');
     localStorage.removeItem('timerRunning');
+    // Optionally, clear other user-related data
   };
 
+  // Score Persistence
+  useEffect(() => {
+    localStorage.setItem('score', score);
+  }, [score]);
+
   if (timerEnded) {
-    return <div>Time is up! All components are hidden.</div>;
+    return <div className="timer-ended">Time is up! All components are hidden.</div>;
   }
 
   return (
@@ -117,21 +140,113 @@ function Layout() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/rules" element={<RulesPage />} />
-        <Route path="/login" element={<LoginPage startTimer={startTimer} setUserInfo={setUserInfo} />} />
-        <Route path="/level1" element={<Levelone />} />
-        <Route path="/level2" element={<Leveltwo />} />
-        <Route path="/level3" element={<Levelthree />} />
-        <Route path="/level4" element={<Levelfour />} />
-        <Route path="/level5" element={<Levelfive />} />
-        <Route path="/level6" element={<Levelsix />} />
-        <Route path="/level7" element={<Levelseven />} />
-        <Route path="/level8" element={<Leveleight />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route 
+          path="/login" 
+          element={<LoginPage startTimer={startTimer} setUserInfo={setUserInfo} />} 
+        />
+        <Route 
+          path="/level1" 
+          element={
+            <Levelone 
+              username={username} 
+              rollnum={rollnum} 
+              timeLeft={timeLeft} 
+              score={score} 
+              setScore={setScore} 
+            />
+          } 
+        />
+        <Route 
+          path="/level2" 
+          element={
+            <Leveltwo 
+              username={username} 
+              rollnum={rollnum} 
+              timeLeft={timeLeft} 
+              score={score} 
+              setScore={setScore} 
+            />
+          } 
+        />
+        <Route 
+          path="/level3" 
+          element={
+            <Levelthree 
+              username={username} 
+              rollnum={rollnum} 
+              timeLeft={timeLeft} 
+              score={score} 
+              setScore={setScore} 
+            />
+          } 
+        />
+        <Route 
+          path="/level4" 
+          element={
+            <Levelfour 
+              username={username} 
+              rollnum={rollnum} 
+              timeLeft={timeLeft} 
+              score={score} 
+              setScore={setScore} 
+            />
+          } 
+        />
+        <Route 
+          path="/level5" 
+          element={
+            <Levelfive 
+              username={username} 
+              rollnum={rollnum} 
+              timeLeft={timeLeft} 
+              score={score} 
+              setScore={setScore} 
+            />
+          } 
+        />
+        <Route 
+          path="/level6" 
+          element={
+            <Levelsix 
+              username={username} 
+              rollnum={rollnum} 
+              timeLeft={timeLeft} 
+              score={score} 
+              setScore={setScore} 
+            />
+          } 
+        />
+        <Route 
+          path="/level7" 
+          element={
+            <Levelseven 
+              username={username} 
+              rollnum={rollnum} 
+              timeLeft={timeLeft} 
+              score={score} 
+              setScore={setScore} 
+            />
+          } 
+        />
+        <Route 
+          path="/level8" 
+          element={
+            <Leveleight 
+              username={username} 
+              rollnum={rollnum} 
+              timeLeft={timeLeft} 
+              score={score} 
+              setScore={setScore} 
+            />
+          } 
+        />
+        <Route 
+          path="/leaderboard" 
+          element={<Leaderboard username={username} rollnum={rollnum} score={score} />} 
+        />
       </Routes>
     </div>
   );
 }
-
-
 
 export default App;
