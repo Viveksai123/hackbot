@@ -161,7 +161,7 @@ const Levelone = () => {
               />
               <GiLightningStorm onClick={handleValidate} className="validate-icon" />
               </div>
-              <div><p className="validation-text">{validationResult}</p></div>
+              <div><p className="validation-text" style={{marginLeft:"-15%"}}>{validationResult}</p></div>
             </div>
           </div>
         </div>

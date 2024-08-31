@@ -88,6 +88,7 @@
     margin-bottom: 20px;
     margin-top: 20px;
     color: #ccc;
+    
    
 }
 
@@ -266,7 +267,7 @@
       /* border: 5px solid #3683d0; */
         border-radius: 10px;
           padding: 25px;
-            box-shadow: 0 16px 20px #3683d0;
+            box-shadow: 0 0 25px #3683d0;
               width: 65vw;
               height: 70vh;
                   justify-content: center;
