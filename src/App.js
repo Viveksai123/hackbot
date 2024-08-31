@@ -12,8 +12,10 @@ import Levelsix from './components/Levelsix';
 import Levelseven from './components/Levelseven';
 import Leveleight from './components/Leveleight';
 import Leaderboard from './components/Leaderboard';
+import SecretCodePage from './components/SecretCodePage'; // Import the new SecretCodePage
+import ProtectedRoute from './components/ProtectedRoute'; // Import the updated ProtectedRoute
 import { FaClock } from 'react-icons/fa';
-import './components/styles/App.css'
+import './components/styles/App.css';
 
 function App() {
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
@@ -69,26 +71,28 @@ function App() {
     <div>
       <div className='timer1'>
         <div className='row'>
-      <FaClock className="clock-icon" />
-        <p>Time left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p></div>
+          <FaClock className="clock-icon" />
+          <p>Time left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p>
+        </div>
         <div>
-        {!timerRunning && <button onClick={startTimer}>Start Timer</button>} {/* Button to start timer */}
-        <button onClick={sendTimestamp}>Send Timestamp</button>
+          {!timerRunning && <button onClick={startTimer}>Start Timer</button>} {/* Button to start timer */}
+          <button onClick={sendTimestamp}>Send Timestamp</button>
         </div>
       </div>
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/rules" element={<RulesPage />} />
-          <Route path="/login" element={<LoginPage startTimer={startTimer}/>} />
-          <Route path="/level1" element={<Levelone />} />
-          <Route path="/level2" element={<Leveltwo />} />
-          <Route path="/level3" element={<Levelthree />} />
-          <Route path="/level4" element={<Levelfour />} />
-          <Route path="/level5" element={<Levelfive />} />
-          <Route path="/level6" element={<Levelsix />} />
-          <Route path="/level7" element={<Levelseven />} />
-          <Route path="/level8" element={<Leveleight />} />
+          <Route path="/secret" element={<SecretCodePage />} />
+          <Route path="/login" element={<LoginPage startTimer={startTimer} />} />
+          <Route path="/" element={<ProtectedRoute element={<HomePage />} />} />
+          <Route path="/rules" element={<ProtectedRoute element={<RulesPage />} />} />
+          <Route path="/level1" element={<ProtectedRoute element={<Levelone />} />} />
+          <Route path="/level2" element={<ProtectedRoute element={<Leveltwo />} />} />
+          <Route path="/level3" element={<ProtectedRoute element={<Levelthree />} />} />
+          <Route path="/level4" element={<ProtectedRoute element={<Levelfour />} />} />
+          <Route path="/level5" element={<ProtectedRoute element={<Levelfive />} />} />
+          <Route path="/level6" element={<ProtectedRoute element={<Levelsix />} />} />
+          <Route path="/level7" element={<ProtectedRoute element={<Levelseven />} />} />
+          <Route path="/level8" element={<ProtectedRoute element={<Leveleight />} />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
         </Routes>
       </Router>
