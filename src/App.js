@@ -12,6 +12,11 @@ import Levelsix from './components/Levelsix';
 import Levelseven from './components/Levelseven';
 import Leveleight from './components/Leveleight';
 import Leaderboard from './components/Leaderboard';
+
+import SecretCodePage from './components/SecretCodePage'; // Import the new SecretCodePage
+import ProtectedRoute from './components/ProtectedRoute'; // Import the updated ProtectedRoute
+import { FaClock } from 'react-icons/fa';
+
 import './components/styles/App.css';
 
 function App() {
@@ -143,7 +148,7 @@ function Layout() {
       </div>
     )}
 
-      <Router>
+ <Router>
   <Routes>
     <Route path="/secret" element={<SecretCodePage />} />
     <Route 

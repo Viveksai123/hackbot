@@ -24,12 +24,35 @@ const Leaderboard = () => {
     <div className="leaderboard-page">
       <div className="leaderboard-container">
         <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
         <div className="leaderboard-list">
           {leaderboardData.length > 0 ? (
             <ul>
               {leaderboardData.map((player, index) => (
                 <li key={index} className="leaderboard-item">
-                  <span className="leaderboard-rank">{index + 1}. </span>
+                  <span className="leaderboardrank">{index + 1}. </span>
                   <span className="leaderboard-name">{player.name}</span>
                   <span className="leaderboard-score">{player.score}</span>
                 </li>

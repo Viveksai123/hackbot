@@ -3,6 +3,7 @@ import "animate.css";
 import { useNavigate } from 'react-router-dom';
 import './styles/Level1Page.css'; // Ensure this path is correct
 import Level1Img from './images/1267912.jpg';
+import Img from './images/img.png';
 import LeftImage from './images/SATARCLEFTIMAGE.png'; // Import the image for the left side
 import ParticlesComponent from '../components/ParticlesComponent'; 
 import { FaClock, FaPaperPlane, FaStar } from 'react-icons/fa'; // Import icons
@@ -206,10 +207,10 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
           </div>
         </div>
         <div className="right-side animate__animated animate__fadeInBottomRight" style={{ marginTop: '150px' }}>
-          <div className="timer">
-            <FaClock className="clock-icon" />
-            {formatTime(time)}
-          </div>
+            <div className="timer">
+              <FaClock className="clock-icon" />
+              {formatTime(time)}
+            </div>
           <div className="validation-section">
             <p style={{ marginBottom: '10px' }}>Validate the spell 1:</p>
             <div className="input-wrapper1">
@@ -222,7 +223,7 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
                 />
                 <GiLightningStorm onClick={handleValidate} className="validate-icon" />
               </div>
-              <div><p className="validation-text">{validationResult}</p></div>
+              <div><p className="validation-text" style={{marginLeft:"-15%"}}>{validationResult}</p></div>
             </div>
           </div>
         </div>
@@ -231,6 +232,7 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
         <div className="success-popup animate__animated animate__fadeInDownBig">
           <div className="popup-content">
           <h1 className='heading animate__animated animate__fadeInUpBig' style={{color:"green"}}>Congratulations!</h1>
+
             {isSpellValidated ? (
               <div>
                 <div className="stars  animate__animated animate__fadeInLeft">

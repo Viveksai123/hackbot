@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #101010;
+    background-color: trasperent;
 }
 
 #tsparticles {
@@ -88,8 +88,8 @@
     margin-bottom: 20px;
     margin-top: 20px;
     color: #ccc;
-    margin-left: auto;
-    margin-right: auto;
+    
+   
 }
 
 .levels-progress {
@@ -144,6 +144,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    justify-content: center;
    
 }
 .password-input {
@@ -173,7 +174,12 @@
     justify-content: flex-start;
     align-items: flex-end;
 }
-
+.column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .timer {
     font-size: 20px;
     font-family: 'digital-clock-font';
@@ -185,7 +191,10 @@
     padding: 10px;
     border-radius: 10px;
 }
-
+.photo{
+  height: 100px;    
+  width: 100px;
+}
 .clock-icon {
     margin-right: 10px;
 }
@@ -234,7 +243,7 @@
     color: #3683d0;
     font-size: 32px;
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .success-popup {
@@ -243,7 +252,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -256,10 +266,10 @@
     flex-direction: column;
       /* border: 5px solid #3683d0; */
         border-radius: 10px;
-          padding: 20px;
-            box-shadow: 0 16px 20px #3683d0;
-              width: 60vw;
-              height: 60vh;
+          padding: 25px;
+            box-shadow: 0 0 25px #3683d0;
+              width: 65vw;
+              height: 70vh;
                   justify-content: center;
                     align-items: center;
                       background-color: rgba(0, 0, 0, 0.1);
@@ -270,6 +280,8 @@
 
   .heading{
     color: #FFFFFF;
+    font-weight: bold;
+    font-family: playfair display;
   }
 
   .popup-content h2 {
