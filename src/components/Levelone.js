@@ -9,7 +9,7 @@ import ParticlesComponent from '../components/ParticlesComponent';
 import { FaClock, FaPaperPlane, FaStar } from 'react-icons/fa'; // Import icons
 import { GiLightningStorm } from 'react-icons/gi'; // Example import
 import CryptoJS from 'crypto-js';
-import Img from './images/img.png';
+// import Img from './images/img.png';
 
 const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
   const navigate = useNavigate();

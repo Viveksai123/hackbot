@@ -3,11 +3,13 @@ import "animate.css";
 import { useNavigate } from 'react-router-dom';
 import './styles/Level1Page.css'; // Ensure this path is correct
 import Level1Img from './images/1267912.jpg';
+import Img from './images/img.png';
 import LeftImage from './images/SATARCLEFTIMAGE.png'; // Import the image for the left side
 import ParticlesComponent from '../components/ParticlesComponent'; 
 import { FaClock, FaPaperPlane, FaStar } from 'react-icons/fa'; // Import icons
 import { GiLightningStorm } from 'react-icons/gi'; // Example import
 import CryptoJS from 'crypto-js';
+// import Img from './images/img.png';
 
 const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
   const navigate = useNavigate();
@@ -205,10 +207,10 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
           </div>
         </div>
         <div className="right-side animate__animated animate__fadeInBottomRight" style={{ marginTop: '150px' }}>
-          <div className="timer">
-            <FaClock className="clock-icon" />
-            {formatTime(time)}
-          </div>
+            <div className="timer">
+              <FaClock className="clock-icon" />
+              {formatTime(time)}
+            </div>
           <div className="validation-section">
             <p style={{ marginBottom: '10px' }}>Validate the spell 1:</p>
             <div className="input-wrapper1">
@@ -221,7 +223,7 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
                 />
                 <GiLightningStorm onClick={handleValidate} className="validate-icon" />
               </div>
-              <div><p className="validation-text">{validationResult}</p></div>
+              <div><p className="validation-text" style={{marginLeft:"-15%"}}>{validationResult}</p></div>
             </div>
           </div>
         </div>
@@ -229,29 +231,41 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
       {isSuccessPopupVisible && (
         <div className="success-popup animate__animated animate__fadeInDownBig">
           <div className="popup-content">
-            <h2>Congratulations!</h2>
-            <div className="stars">
+          <h1 className='heading animate__animated animate__fadeInUpBig' style={{color:"green"}}>Congratulations!</h1>
+
+            {isSpellValidated ? (
+              <div>
+                <div className="stars  animate__animated animate__fadeInLeft">
               <FaStar className="star-icon" />
               <FaStar className="star-icon center" />
               <FaStar className="star-icon" />
             </div>
-            {isSpellValidated ? (
-              <>
-                <p>Your answer is correct!</p>
-                <button className="next-level-button" onClick={handleNextLevel}>Next Level</button>
-              </>
+                <p className=' animate__animated animate__fadeInRight'>You have successfully cast the spell. Here’s to learning a new one!</p>
+                <button className=" animate__animated animate__fadeInDownBig" onClick={handleNextLevel}>Next Level</button>
+              </div>
             ) : (
-              <>
-                <p>Please cast the spell to proceed.</p>
-                <div className="input-wrapper">
+              <div className='column'>
+                <img src={Img} alt="hat" className='photo  animate__animated animate__fadeInLeft' />
+                <h1 className='heading  animate__animated animate__fadeInRight' style={{color:"red"}}>"Firewall"</h1>
+                <h1 className="level-indicator  animate__animated animate__fadeInLeft">Cast the spell to proceed:</h1>
+                
+                <p className=' animate__animated animate__fadeInRight'> A security device or software that monitors and controls incoming and outgoing network traffic based on predetermined security rules. It acts as a barrier between a trusted internal network and untrusted external networks.</p>
+                
+                <br/>
+                <div className="input-wrapper1">
+                <div className='input-wrapper'>
+                   
                   <input
+                  className="password-input"
                     type="text"
                     value={castSpellAnswer}
                     onChange={(e) => setCastSpellAnswer(e.target.value)}
+                    onKeyDown={handleKeyDown}
                   />
-                  <FaPaperPlane onClick={handleCastSpell} className="submit-icon" />
+                  <GiLightningStorm onClick={handleCastSpell} className="cast-spell-icon" />
+                  </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
