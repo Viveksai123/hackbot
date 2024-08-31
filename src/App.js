@@ -130,22 +130,46 @@ function Layout() {
 
   return (
     <div>
-      {(location.pathname !== '/' && location.pathname !== '/rules') && (
-        <div className='timer1'>
+        {(location.pathname !== '/' && location.pathname !== '/rules') && (
+      <div className='timer1'>
+        <div className='row'>
+          <FaClock className="clock-icon" />
           <p>Time left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p>
+        </div>
+        <div>
           {!timerRunning && <button onClick={startTimer}>Start Timer</button>} {/* Button to start timer */}
           <button onClick={sendTimestamp}>Send Timestamp</button>
         </div>
-      )}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/rules" element={<RulesPage />} />
-        <Route 
-          path="/login" 
-          element={<LoginPage startTimer={startTimer} setUserInfo={setUserInfo} />} 
+      </div>
+    )}
+
+      <Router>
+  <Routes>
+    <Route path="/secret" element={<SecretCodePage />} />
+    <Route 
+      path="/login" 
+      element={<LoginPage startTimer={startTimer} setUserInfo={setUserInfo} />} 
+    />
+    <Route 
+      path="/" 
+      element={
+        <ProtectedRoute 
+          element={<HomePage />} 
         />
-        <Route 
-          path="/level1" 
+      } 
+    />
+    <Route 
+      path="/rules" 
+      element={
+        <ProtectedRoute 
+          element={<RulesPage />} 
+        />
+      } 
+    />
+    <Route 
+      path="/level1" 
+      element={
+        <ProtectedRoute 
           element={
             <Levelone 
               username={username} 
@@ -156,8 +180,12 @@ function Layout() {
             />
           } 
         />
-        <Route 
-          path="/level2" 
+      } 
+    />
+    <Route 
+      path="/level2" 
+      element={
+        <ProtectedRoute 
           element={
             <Leveltwo 
               username={username} 
@@ -168,8 +196,12 @@ function Layout() {
             />
           } 
         />
-        <Route 
-          path="/level3" 
+      } 
+    />
+    <Route 
+      path="/level3" 
+      element={
+        <ProtectedRoute 
           element={
             <Levelthree 
               username={username} 
@@ -180,8 +212,12 @@ function Layout() {
             />
           } 
         />
-        <Route 
-          path="/level4" 
+      } 
+    />
+    <Route 
+      path="/level4" 
+      element={
+        <ProtectedRoute 
           element={
             <Levelfour 
               username={username} 
@@ -192,8 +228,12 @@ function Layout() {
             />
           } 
         />
-        <Route 
-          path="/level5" 
+      } 
+    />
+    <Route 
+      path="/level5" 
+      element={
+        <ProtectedRoute 
           element={
             <Levelfive 
               username={username} 
@@ -204,8 +244,12 @@ function Layout() {
             />
           } 
         />
-        <Route 
-          path="/level6" 
+      } 
+    />
+    <Route 
+      path="/level6" 
+      element={
+        <ProtectedRoute 
           element={
             <Levelsix 
               username={username} 
@@ -216,8 +260,12 @@ function Layout() {
             />
           } 
         />
-        <Route 
-          path="/level7" 
+      } 
+    />
+    <Route 
+      path="/level7" 
+      element={
+        <ProtectedRoute 
           element={
             <Levelseven 
               username={username} 
@@ -228,8 +276,12 @@ function Layout() {
             />
           } 
         />
-        <Route 
-          path="/level8" 
+      } 
+    />
+    <Route 
+      path="/level8" 
+      element={
+        <ProtectedRoute 
           element={
             <Leveleight 
               username={username} 
@@ -240,11 +292,25 @@ function Layout() {
             />
           } 
         />
-        <Route 
-          path="/leaderboard" 
-          element={<Leaderboard username={username} rollnum={rollnum} score={score} />} 
+      } 
+    />
+    <Route 
+      path="/leaderboard" 
+      element={
+        <ProtectedRoute 
+          element={
+            <Leaderboard 
+              username={username} 
+              rollnum={rollnum} 
+              score={score} 
+            />
+          } 
         />
-      </Routes>
+      } 
+    />
+  </Routes>
+</Router>
+
     </div>
   );
 }
