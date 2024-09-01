@@ -145,20 +145,24 @@ function Layout() {
   return (
     <div>
       {(location.pathname !== '/' && location.pathname !== '/rules') && (
+        <div className='space'>
         <div className='timer1'>
           <div className='row'>
             <FaClock className="clock-icon" />
             <p>Time left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p>
-            <button onClick={handlePopupOpen} className="leaderboard-button">
-              <FaTrophy /> Show Leaderboard
-            </button>
+            
           </div>
+
+        </div>
+        <button onClick={handlePopupOpen} className="leaderboard-button">
+              <FaTrophy /> . Show Leaderboard
+            </button>
         </div>
       )}
 
       {isPopupVisible && (
         <div className="popup-overlay">
-          <div className="popup-content">
+          <div className="leader">
             <button onClick={handlePopupClose} className="popup-close-button">Close</button>
             <Leaderboard
               username={username}

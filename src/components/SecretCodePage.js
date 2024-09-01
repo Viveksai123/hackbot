@@ -9,7 +9,7 @@ function SecretCodePage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (code === 'hello') {
+    if (code ==='hii') {
       localStorage.setItem('secretCode', 'true');
       navigate('/');
     } else {
@@ -18,17 +18,19 @@ function SecretCodePage() {
   };
 
   return (
-    <div className='row'>
-      <h2>Enter Secret Code</h2>
+    <div className='popup'>
+      <div>
+      <h2>Enter Secret Code :</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           value={code}
           onChange={(e) => setCode(e.target.value)}
           placeholder="Enter secret code"
-        />
-        <button type="submit">Submit</button>
+        /><br></br>
+        <button type="submit"           className="px-3 py-2 text-sm bg-blue text-white border border-white-300 rounded-md hover:bg-gray-800 transition duration-300 ml-[-25] mt-2 animate__animated animate__fadeInUpBig">Submit</button>
       </form>
+    </div>
     </div>
   );
 }

@@ -154,7 +154,7 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
     }
   };
 
-  const progressPercentage = (currentLevel / totalLevels) * 90; // Adjust progress percentage calculation
+  const progressPercentage = (currentLevel / totalLevels) * 0; // Adjust progress percentage calculation
 
   return (
     <div className="level1-page">
@@ -251,6 +251,7 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
                       onChange={(e) => setCastSpellAnswer(e.target.value)}
                       onKeyDown={handleKeyDown}
                     />
+                    
                     <GiLightningStorm onClick={handleCastSpell} className="cast-spell-icon" />
                   </div>
                 </div>
