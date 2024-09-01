@@ -12,10 +12,9 @@ import Levelsix from './components/Levelsix';
 import Levelseven from './components/Levelseven';
 import Leveleight from './components/Leveleight';
 import Leaderboard from './components/Leaderboard';
-
 import SecretCodePage from './components/SecretCodePage'; // Import the new SecretCodePage
 import ProtectedRoute from './components/ProtectedRoute'; // Import the updated ProtectedRoute
-import { FaClock } from 'react-icons/fa';
+import { FaClock, FaTrophy } from 'react-icons/fa'; // Import the trophy icon
 
 import './components/styles/App.css';
 
@@ -28,10 +27,9 @@ function App() {
 }
 
 function Layout() {
-  // Timer State
   const [timeLeft, setTimeLeft] = useState(() => {
     const savedTimeLeft = localStorage.getItem('timeLeft');
-    return savedTimeLeft !== null ? parseInt(savedTimeLeft, 10) : 300; // Default to 30 minutes (1800 seconds)
+    return savedTimeLeft !== null ? parseInt(savedTimeLeft, 10) : 420; // Default to 7 minutes
   });
 
   const [timerRunning, setTimerRunning] = useState(() => {
@@ -54,6 +52,9 @@ function Layout() {
     const savedScore = localStorage.getItem('score');
     return savedScore !== null ? parseInt(savedScore, 10) : 0;
   });
+
+  // Popup State
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   const location = useLocation(); // Get the current route path
 
@@ -93,7 +94,7 @@ function Layout() {
   const sendTimestamp = () => {
     const timestampUTC = new Date(); // Current time in UTC
     const timestampIST = convertToIST(timestampUTC); // Convert to IST
-    fetch('http://localhost:5000/tasks', {
+    fetch('https://jsonserver-production-dc15.up.railway.app/records', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -129,191 +130,210 @@ function Layout() {
     localStorage.setItem('score', score);
   }, [score]);
 
+  const handlePopupClose = () => {
+    setPopupVisible(false);
+  };
+
+  const handlePopupOpen = () => {
+    setPopupVisible(true);
+  };
+
   if (timerEnded) {
     return <div className="timer-ended">Time is up! All components are hidden.</div>;
   }
 
   return (
     <div>
-        {(location.pathname !== '/' && location.pathname !== '/rules') && (
-      <div className='timer1'>
-        <div className='row'>
-          <FaClock className="clock-icon" />
-          <p>Time left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p>
+      {(location.pathname !== '/' && location.pathname !== '/rules') && (
+        <div className='timer1'>
+          <div className='row'>
+            <FaClock className="clock-icon" />
+            <p>Time left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</p>
+            <button onClick={handlePopupOpen} className="leaderboard-button">
+              <FaTrophy /> Show Leaderboard
+            </button>
+          </div>
         </div>
-        <div>
-          {!timerRunning && <button onClick={startTimer}>Start Timer</button>} {/* Button to start timer */}
-          <button onClick={sendTimestamp}>Send Timestamp</button>
+      )}
+
+      {isPopupVisible && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <button onClick={handlePopupClose} className="popup-close-button">Close</button>
+            <Leaderboard
+              username={username}
+              rollnum={rollnum}
+              score={score}
+            />
+          </div>
         </div>
-      </div>
-    )}
+      )}
 
-    <Routes>
-      <Route path="/secret" element={<SecretCodePage />} />
-      <Route 
-        path="/login" 
-        element={<LoginPage startTimer={startTimer} setUserInfo={setUserInfo} />} 
-      />
-      <Route 
-        path="/" 
-        element={
-          <ProtectedRoute 
-            element={<HomePage />} 
-          />
-        } 
-      />
-      <Route 
-        path="/rules" 
-        element={
-          <ProtectedRoute 
-            element={<RulesPage />} 
-          />
-        } 
-      />
-      <Route 
-        path="/level1" 
-        element={
-          <ProtectedRoute 
-            element={
-              <Levelone 
-                username={username} 
-                rollnum={rollnum} 
-                timeLeft={timeLeft} 
-                score={score} 
-                setScore={setScore} 
-              />
-            } 
-          />
-        } 
-      />
-      <Route 
-        path="/level2" 
-        element={
-          <ProtectedRoute 
-            element={
-              <Leveltwo 
-                username={username} 
-                rollnum={rollnum} 
-                timeLeft={timeLeft} 
-                score={score} 
-                setScore={setScore} 
-              />
-            } 
-          />
-        } 
-      />
-      <Route 
-        path="/level3" 
-        element={
-          <ProtectedRoute 
-            element={
-              <Levelthree 
-                username={username} 
-                rollnum={rollnum} 
-                timeLeft={timeLeft} 
-                score={score} 
-                setScore={setScore} 
-              />
-            } 
-          />
-        } 
-      />
-      <Route 
-        path="/level4" 
-        element={
-          <ProtectedRoute 
-            element={
-              <Levelfour 
-                username={username} 
-                rollnum={rollnum} 
-                timeLeft={timeLeft} 
-                score={score} 
-                setScore={setScore} 
-              />
-            } 
-          />
-        } 
-      />
-      <Route 
-        path="/level5" 
-        element={
-          <ProtectedRoute 
-            element={
-              <Levelfive 
-                username={username} 
-                rollnum={rollnum} 
-                timeLeft={timeLeft} 
-                score={score} 
-                setScore={setScore} 
-              />
-            } 
-          />
-        } 
-      />
-      <Route 
-        path="/level6" 
-        element={
-          <ProtectedRoute 
-            element={
-              <Levelsix 
-                username={username} 
-                rollnum={rollnum} 
-                timeLeft={timeLeft} 
-                score={score} 
-                setScore={setScore} 
-              />
-            } 
-          />
-        } 
-      />
-      <Route 
-        path="/level7" 
-        element={
-          <ProtectedRoute 
-            element={
-              <Levelseven 
-                username={username} 
-                rollnum={rollnum} 
-                timeLeft={timeLeft} 
-                score={score} 
-                setScore={setScore} 
-              />
-            } 
-          />
-        } 
-      />
-      <Route 
-        path="/level8" 
-        element={
-          <ProtectedRoute 
-            element={
-              <Leveleight 
-                username={username} 
-                rollnum={rollnum} 
-                timeLeft={timeLeft} 
-                score={score} 
-                setScore={setScore} 
-              />
-            } 
-          />
-        } 
-      />
-      <Route 
-        path="/leaderboard" 
-        element={
-          <ProtectedRoute 
-            element={
-              <Leaderboard 
-                username={username} 
-                rollnum={rollnum} 
-                score={score} 
-              />
-            } 
-          />
-        } 
-      />
-    </Routes>
-
+      <Routes>
+        <Route path="/secret" element={<SecretCodePage />} />
+        <Route 
+          path="/login" 
+          element={<LoginPage startTimer={startTimer} setUserInfo={setUserInfo} />} 
+        />
+        <Route 
+          path="/" 
+          element={
+            <ProtectedRoute 
+              element={<HomePage />} 
+            />
+          } 
+        />
+        <Route 
+          path="/rules" 
+          element={
+            <ProtectedRoute 
+              element={<RulesPage />} 
+            />
+          } 
+        />
+        <Route 
+          path="/level1" 
+          element={
+            <ProtectedRoute 
+              element={
+                <Levelone 
+                  username={username} 
+                  rollnum={rollnum} 
+                  timeLeft={timeLeft} 
+                  score={score} 
+                  setScore={setScore} 
+                />
+              } 
+            />
+          } 
+        />
+        <Route 
+          path="/level2" 
+          element={
+            <ProtectedRoute 
+              element={
+                <Leveltwo 
+                  username={username} 
+                  rollnum={rollnum} 
+                  timeLeft={timeLeft} 
+                  score={score} 
+                  setScore={setScore} 
+                />
+              } 
+            />
+          } 
+        />
+        <Route 
+          path="/level3" 
+          element={
+            <ProtectedRoute 
+              element={
+                <Levelthree 
+                  username={username} 
+                  rollnum={rollnum} 
+                  timeLeft={timeLeft} 
+                  score={score} 
+                  setScore={setScore} 
+                />
+              } 
+            />
+          } 
+        />
+        <Route 
+          path="/level4" 
+          element={
+            <ProtectedRoute 
+              element={
+                <Levelfour 
+                  username={username} 
+                  rollnum={rollnum} 
+                  timeLeft={timeLeft} 
+                  score={score} 
+                  setScore={setScore} 
+                />
+              } 
+            />
+          } 
+        />
+        <Route 
+          path="/level5" 
+          element={
+            <ProtectedRoute 
+              element={
+                <Levelfive 
+                  username={username} 
+                  rollnum={rollnum} 
+                  timeLeft={timeLeft} 
+                  score={score} 
+                  setScore={setScore} 
+                />
+              } 
+            />
+          } 
+        />
+        <Route 
+          path="/level6" 
+          element={
+            <ProtectedRoute 
+              element={
+                <Levelsix 
+                  username={username} 
+                  rollnum={rollnum} 
+                  timeLeft={timeLeft} 
+                  score={score} 
+                  setScore={setScore} 
+                />
+              } 
+            />
+          } 
+        />
+        <Route 
+          path="/level7" 
+          element={
+            <ProtectedRoute 
+              element={
+                <Levelseven 
+                  username={username} 
+                  rollnum={rollnum} 
+                  timeLeft={timeLeft} 
+                  score={score} 
+                  setScore={setScore} 
+                />
+              } 
+            />
+          } 
+        />
+        <Route 
+          path="/level8" 
+          element={
+            <ProtectedRoute 
+              element={
+                <Leveleight 
+                  username={username} 
+                  rollnum={rollnum} 
+                  timeLeft={timeLeft} 
+                  score={score} 
+                  setScore={setScore} 
+                />
+              } 
+            />
+          } 
+        />
+        <Route 
+          path="/leaderboard" 
+          element={
+            <ProtectedRoute 
+              element={
+                <Leaderboard 
+                  username={username} 
+                  rollnum={rollnum} 
+                  score={score} 
+                />
+              } 
+            />
+          } 
+        />
+      </Routes>
     </div>
   );
 }

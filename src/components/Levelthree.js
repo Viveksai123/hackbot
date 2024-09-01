@@ -13,9 +13,9 @@ import CryptoJS from 'crypto-js';
 
 const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
   const navigate = useNavigate();
-  const [time, setTime] = useState(timeLeft || 1800); // 30 minutes in seconds
   const [submittedAnswer, setSubmittedAnswer] = useState('');
   const [response, setResponse] = useState('');
+  const [time, setTime] = useState(timeLeft || 1800);
   const [validationResult, setValidationResult] = useState('');
   const [castSpellAnswer, setCastSpellAnswer] = useState('');
   const [password, setPassword] = useState('');
@@ -27,14 +27,8 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
   const currentLevel = 3; // Set current level directly as a constant
 
   // Example hash (replace this with your actual hash)
-  const hashedPassword = 'ec28e6094c3c7d86adabcf28217b224084d9097d234852dee4b560b6ea79582b'; // Example SHA-256 hash
+  const hashedPassword = '73c6728d419fee61bf82b5e2c07ee2b8b73192a1656872b0227b3abdc82f7df9'; // Example SHA-256 hash
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(prevTime => (prevTime > 0 ? prevTime - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -42,7 +36,7 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
     
     try {
       // Send the submitted answer to the backend
-      const res = await fetch('/api/generate-1/generate', {
+      const res = await fetch('http://localhost/generate_lvl8', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +57,7 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
 
   const handleValidate = () => {
     try {
-      const submittedAnswerHash = CryptoJS.SHA256(submittedAnswer).toString();
+      const submittedAnswerHash = CryptoJS.SHA256(submittedAnswer.toLowerCase()).toString();
       if (submittedAnswerHash === hashedPassword) {
         setValidationResult('Correct! Now cast the spell.');
         setSuccessPopupVisible(true);
@@ -79,8 +73,8 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
   };
 
   const handleCastSpell = () => {
-    const dummyPassword = 'Firewall'; // Dummy password for testing
-    if (castSpellAnswer === dummyPassword) {
+    const dummyPassword = 'ransomware'; // Dummy password for testing
+    if (castSpellAnswer.toLowerCase() === dummyPassword) {
       setIsSpellValidated(true); // Spell validated successfully
     } else {
       alert('Incorrect password for casting spell. Try again.');
@@ -103,7 +97,7 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
   
     try {
       // Fetch the existing data for the user based on rollnum
-      const fetchResponse = await fetch(`http://localhost:5000/tasks?rollnum=${rollnum}`, {
+      const fetchResponse = await fetch(`https://jsonserver-production-dc15.up.railway.app/records?rollnum=${rollnum}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +114,7 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
           // Check if the current level is 1 plus the level in existing data
           if (currentLevel === existingData.level + 1) {
             // If user data exists and level is correct, update it
-            const updateResponse = await fetch(`http://localhost:5000/tasks/${existingData.id}`, {
+            const updateResponse = await fetch(`https://jsonserver-production-dc15.up.railway.app/records/${existingData.id}`, {
               method: 'PUT', // Use PUT or PATCH for updating the existing entry
               headers: {
                 'Content-Type': 'application/json',
@@ -207,10 +201,6 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
           </div>
         </div>
         <div className="right-side animate__animated animate__fadeInBottomRight" style={{ marginTop: '150px' }}>
-            <div className="timer">
-              <FaClock className="clock-icon" />
-              {formatTime(time)}
-            </div>
           <div className="validation-section">
             <p style={{ marginBottom: '10px' }}>Validate the spell 1:</p>
             <div className="input-wrapper1">
@@ -246,10 +236,12 @@ const Levelone = ({ username, rollnum, initialScore, timeLeft }) => {
             ) : (
               <div className='column'>
                 <img src={Img} alt="hat" className='photo  animate__animated animate__fadeInLeft' />
-                <h1 className='heading  animate__animated animate__fadeInRight' style={{color:"red"}}>"Firewall"</h1>
+                <h1 className='heading  animate__animated animate__fadeInRight' style={{color:"red"}}>"Ransomware"</h1>
                 <h1 className="level-indicator  animate__animated animate__fadeInLeft">Cast the spell to proceed:</h1>
                 
-                <p className=' animate__animated animate__fadeInRight'> A security device or software that monitors and controls incoming and outgoing network traffic based on predetermined security rules. It acts as a barrier between a trusted internal network and untrusted external networks.</p>
+                <p className=' animate__animated animate__fadeInRight'> 
+                Ransomware is a form of malware that encrypts the victim's data or locks them out of their system.
+                </p>
                 
                 <br/>
                 <div className="input-wrapper1">

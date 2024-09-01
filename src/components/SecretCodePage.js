@@ -9,7 +9,7 @@ function SecretCodePage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (code === 'hot') {
+    if (code === 'hello') {
       localStorage.setItem('secretCode', 'true');
       navigate('/');
     } else {
