@@ -40,12 +40,12 @@ const Leaderboard = () => {
                   <span> <td></td><td></td><td></td><td></td><td></td></span>
                   <span className="leaderboard-name">
                     {player.username}
-                    {index === 0 && (
-                      <FontAwesomeIcon
-                        icon={faTrophy}
-                        className="trophy-icon"
-                      />
-                    )}
+                    {index === 0
+                      // <FontAwesomeIcon
+                      //   icon={faTrophy}
+                      //   className="trophy-icon"
+                      // />
+                    }
                   </span>
                   <span
                     className={`leaderboard-score ${
