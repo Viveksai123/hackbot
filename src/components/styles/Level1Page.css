@@ -136,13 +136,24 @@
 .input-wrapper {
     position: relative;
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     align-items: center;
     margin-bottom: 20px;
 }
 .input-wrapper1 {
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+   
+}
+.input-wrapper2{
+    position: relative;
+    display: flex;
+    flex-direction:row;
     align-items: center;
     justify-content: center;
    
