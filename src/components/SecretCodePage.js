@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./styles/index.css";
 import np from './images/np.png';
-import bujji from './images/bujji.png';
+import bujji from './images/bujji1.png';
 
 function SecretCodePage() {
   localStorage.setItem('secretCode', 'false');
